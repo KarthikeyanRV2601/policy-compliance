@@ -1,0 +1,51 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Company {
+  id        String     @id @default(uuid())
+  name      String
+  employees Employee[]
+  policies  Policy[]
+}
+
+model Employee {
+  id              String           @id @default(uuid())
+  companyId       String
+  company         Company          @relation(fields: [companyId], references: [id])
+  name            String
+  email           String           @unique
+  role            String
+  joinedAt        DateTime
+  acknowledgements Acknowledgement[]
+}
+
+model Policy {
+  id          String           @id @default(uuid())
+  companyId   String
+  company     Company          @relation(fields: [companyId], references: [id])
+  name        String
+  type        String
+  version     Int              @default(1)
+  content     String
+  status      String           // draft, pending_approval, approved
+  approvedBy  String?
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  acknowledgements Acknowledgement[]
+}
+
+model Acknowledgement {
+  id            String   @id @default(uuid())
+  employeeId    String
+  employee      Employee @relation(fields: [employeeId], references: [id])
+  policyId      String
+  policy        Policy   @relation(fields: [policyId], references: [id])
+  acknowledgedAt DateTime @default(now())
+  ackType       String  // new_joining, periodic, manual
+}

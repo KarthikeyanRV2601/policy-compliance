@@ -7,16 +7,42 @@ const prisma = new PrismaClient();
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     if (req.method === "GET") {
-      const policies = await prisma.policy.findMany();
-      return res.status(200).json(policies);
+      const { companyId, policyId } = req.query;
+
+      if (companyId) {
+        const companyExists = await prisma.company.findUnique({
+          where: { id: companyId as string },
+        });
+
+        if (!companyExists) {
+          return NextResponse.json(
+            { error: "Invalid companyId: Company does not exist" },
+            { status: 400 }
+          );
+        }
+
+        const policies = await prisma.policy.findMany({
+          where: { companyId: companyId as string }
+        });
+
+        return res.status(200).json(policies);
+
+      } else if (policyId) {
+        const policy = await prisma.policy.findUnique({
+          where: { id: policyId as string }
+        });
+
+        return res.status(200).json(policy);
+      }
     }
 
     if (req.method === "POST") {
-      const { companyId, name, type, content } = req.body;
+      const { companyId, name, type, content, updating, policyId } = req.body;
 
       const companyExists = await prisma.company.findUnique({
         where: { id: companyId },
       });
+
       if (!companyExists) {
         return NextResponse.json(
           { error: "Invalid companyId: Company does not exist" },
@@ -24,11 +50,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         );
       }
 
-      const policy = await prisma.policy.create({
-        data: { companyId, name, type, content, version: 1, status: "pending", approvedBy: null, createdAt: new Date(), updatedAt: new Date() }
-      });
+      if (!updating) {
+        await prisma.policy.create({
+          data: { companyId, name, type, content, version: 1, status: "pending", approvedBy: null, createdAt: new Date(), updatedAt: new Date() }
+        });
+      } else {
+        const policy = await prisma.policy.findUnique({ where: { id: policyId } });
+        if (!policy) throw new Error("Policy not found");
+        await prisma.policy.update({
+          where: { id: policyId },
+          data: { name, content, version: policy?.version + 1, status: "pending", approvedBy: null, updatedAt: new Date(), acknowledgementRecord: [] }
+        });
+      }
 
-      return res.status(200).json(policy);
+      return res.status(200).json({});
     }
 
     if (req.method === "DELETE") {

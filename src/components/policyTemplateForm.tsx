@@ -1,13 +1,7 @@
+import { useUser } from "@/context";
 import PolicyService from "@/service/policyService";
+import { PolicyTemplate } from "@prisma/client";
 import { useCallback, useState } from "react";
-
-interface PolicyTemplate {
-  id: string;
-  name: string;
-  content: string;
-  configuredValues?: Record<string, string>;
-  type: string;
-}
 
 interface PolicyFormProps {
   template: PolicyTemplate;
@@ -15,16 +9,14 @@ interface PolicyFormProps {
 }
 
 export const PolicyTemplateForm: React.FC<PolicyFormProps> = ({ template, onClose }) => {
+  const {user} = useUser();
   const [policyData, setPolicyData] = useState<PolicyTemplate>(template);
-
-  const companyData = [
-    'Sprinto',
-    'Apple',
-    'Google',
-    'Oracle'
+  const policyCycleTypes = [
+    'new_joining',
+    'periodic',
+    'manual',
   ]
-
-  const [selectedCompany, setSelectedCompany] = useState<string>(companyData[0]);
+  const [selectedPolicyCycle, setSelectedPolicyCycle] = useState<string>(policyCycleTypes[0]);
 
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -46,32 +38,35 @@ export const PolicyTemplateForm: React.FC<PolicyFormProps> = ({ template, onClos
   }
 
   const createPolicy = async () => {
+    if(user) {
+      try {
+        const policyResponse = await PolicyService.createPolicy(
+          policyData.name,
+          policyData.content,
+          policyData.type,
+          user.companyId,
+          selectedPolicyCycle
+        );
+        console.log("Policy Response:", policyResponse);
+      } catch (error: any) {
+        alert(error.message)
+      }
 
-    try {
-      const policyResponse = await PolicyService.createPolicy(
-        policyData.name,
-        policyData.content,
-        policyData.type,
-        selectedCompany
-      );
-      console.log("Policy Response:", policyResponse);
-    } catch (error: any) {
-      alert(error.message)
     }
   }
 
   const handleSubmit = async (saveTemplate: boolean) => {
     if (saveTemplate) {
       createPolicyTemplate();
+    } else {
+      createPolicy();
     }
-    createPolicy();
     alert("Created Successfully!");
     onClose();
   };
 
-
-  const handleCompanySelect = useCallback((event: any) => {
-    setSelectedCompany(event.target.value);
+  const handlePolicyCycleSelect = useCallback((event: any) => {
+    setSelectedPolicyCycle(event.target.value);
   }, [])
 
   return (
@@ -100,16 +95,17 @@ export const PolicyTemplateForm: React.FC<PolicyFormProps> = ({ template, onClos
         </div>
 
         <div className="form-group">
-          <label>Company</label>
-          <select onChange={handleCompanySelect} value={selectedCompany}>
-            {companyData.map((company, index) => <option key={index} value={company}>{company}</option>)}
+          <label>Policy Cycle</label>
+
+          <select onChange={handlePolicyCycleSelect} value={selectedPolicyCycle} className="select-field">
+            {policyCycleTypes.map((company, index) => <option key={index} value={company}>{company}</option>)}
           </select>
         </div>
 
         <div className="form-actions">
-          <button onClick={() => handleSubmit(false)}>Save Policy</button>
-          <button onClick={() => handleSubmit(true)}>Save Template & Policy</button>
-          <button type="button" className="cancel-btn" onClick={onClose}>
+          <button className="policy-template-edit-button save" onClick={() => handleSubmit(false)}>Save Policy</button>
+          <button className="policy-template-edit-button save-template" onClick={() => handleSubmit(true)}>Create a template</button>
+          <button className="policy-template-edit-button cancel" type="button" onClick={onClose}>
             Cancel
           </button>
         </div>

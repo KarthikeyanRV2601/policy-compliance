@@ -26,12 +26,16 @@ class PolicyService {
         return this.request('/api/policies/templates', 'DELETE', { id });
     }
 
-    static async getPolicies() {
-        return this.request('/api/policies/policies');
+    static async getPolicy(policyId: string) {
+        return this.request(`/api/policies/policies?policyId=${policyId}`, 'GET');
     }
 
-    static async createPolicy(name: string, content: string, type: string, companyId: string) {
-        return this.request('/api/policies/policies', 'POST', { name, content, companyId, type });
+    static async getPolicies(companyId: string) {
+        return this.request(`/api/policies/policies?companyId=${companyId}`, 'GET');
+    }
+
+    static async createPolicy(name: string, content: string, type: string, companyId: string, policyType: string) {
+        return this.request('/api/policies/policies', 'POST', { name, content, companyId, type, policyType });
     }
 
     static async deletePolicy(id: string) {
@@ -39,49 +43,32 @@ class PolicyService {
     }
 
 
-    static async updatePolicy(id: string) {
-        return this.request('/api/policies/policies', 'POST', { id });
+    static async updatePolicy(name: string, content: string, policyId: string, companyId: string, policyType: string | null) {
+        return this.request('/api/policies/policies', 'POST', { name, content, policyId, companyId, updating: true, policyType });
     }
 
     static async approvePolicy(policyId: string, approverId: string, approverRole: string, policyType: string) {
-        const response = await fetch("/api/policies/approve", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ policyId, approverId, approverRole, policyType }),
-        });
-
-        if (!response.ok) throw new Error("Failed to approve policy");
-        return response.json();
+        return this.request("/api/policies/policy-action/approve", 'POST', { policyId, approverId, approverRole, policyType });
     }
 
     static async rejectPolicy(policyId: string, approverId: string, approverRole: string, policyType: string) {
-        const response = await fetch("/api/policies/reject", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ policyId, approverId, approverRole, policyType }),
-        });
-
-        if (!response.ok) throw new Error("Failed to reject policy");
-        return response.json();
+        return this.request('/api/policies/policy-action/reject', 'POST', { policyId, approverId, approverRole, policyType });
     }
 
     static async undoPolicyApproveRejectAction(policyId: string, approverId: string, approverRole: string, policyType: string) {
-        try {
-            const response = await fetch("/api/policies/undo", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ policyId, approverId, approverRole, policyType }),
-            });
-            if (!response.ok) throw new Error("Failed to undo policy");
-            return response.json();
-        } catch (error) {
-            console.error("Error undoing policy action:", error);
-            throw error;
-        }
+        return this.request('/api/policies/policy-action/undo', 'POST', { policyId, approverId, approverRole, policyType });
     }
 
-    static async acknowledgePolicy(policyId: string, userId: string) {
-        return this.request('/api/policies/acknowledge', 'POST', { policyId, userId });
+    static async requestAcknowledgment(employeeId: string, policies: string[]) {
+        return this.request('/api/policies/acknowledgement/request', 'POST', { employeeId, policies });
+    }
+    
+    static async acknowledgePolicy(policyId: string, employeeId: string) {
+        return this.request('/api/policies/acknowledgement/acknowledge', 'POST', { policyId, employeeId });
+    }
+
+    static async getPendingAcknowledgements(userId: string) {
+        return this.request(`/api/policies/acknowledgement/acknowledge?userId=${userId}`, 'GET');
     }
 }
 

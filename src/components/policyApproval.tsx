@@ -18,19 +18,24 @@ export const PolicyApproval = () => {
     const [selectedStatus, setSelectedStatus] = useState<PolicyStatus>(PolicyStatus.PENDING);
 
     useEffect(() => {
-        fetchPolicies();
-    }, [selectedStatus]);
+        if(user) {
+            fetchPolicies();
+        }
+    }, [user, selectedStatus]);
 
     const fetchPolicies = async () => {
-        try {
-            const data = await PolicyService.getPolicies();
-            if (selectedStatus === PolicyStatus.ALL) {
-                setPolicies(data);
-            } else {
-                setPolicies(data.filter((p: Policy) => p.status === selectedStatus));
+        if(user) {
+            try {
+                const data = await PolicyService.getPolicies(user.companyId);
+                if (selectedStatus === PolicyStatus.ALL) {
+                    setPolicies(data);
+                } else {
+                    setPolicies(data.filter((p: Policy) => p.status === selectedStatus));
+                }
+            } catch (error) {
+                console.error("Error fetching policies:", error);
             }
-        } catch (error) {
-            console.error("Error fetching policies:", error);
+
         }
     };
 
@@ -92,7 +97,7 @@ export const PolicyApproval = () => {
                     {Object.values(PolicyStatus).map((status) => (
                         <button
                             key={status}
-                            className={`tab-button ${selectedStatus === status ? "active" : ""}`}
+                            className={`${selectedStatus === status ? "active" : "tab-button"}`}
                             onClick={() => setSelectedStatus(status as PolicyStatus)}
                         >
                             {status.charAt(0).toUpperCase() + status.slice(1)}
@@ -113,10 +118,11 @@ export const PolicyApproval = () => {
                                 {policy.status === "pending" ? (
                                     ROLE_PERMISSIONS[user.role]?.includes("ALL") ||
                                         ROLE_PERMISSIONS[user.role]?.includes(policy.type) ? (
-                                        <div>
+                                        <div className="policy-approval-actions">
                                             <button
                                                 onClick={() => handleAction(policy.id, policy.type, "approve")}
                                                 disabled={loading[policy.id]}
+                                                className="approve-btn"
                                             >
                                                 {loading[policy.id] ? "Approving..." : "Approve"}
                                             </button>

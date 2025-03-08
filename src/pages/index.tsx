@@ -1,8 +1,7 @@
 import { useCallback, useState } from "react";
 import { HomePageTabs } from "../types";
 import PolicyTemplate from "../components/policyTemplate";
-import PolicyAcknowledgement from "../components/policyAcknowledgement";
-import { Menu, PolicyApproval, PolicyRecord } from "@/components";
+import { EmployeeAcknowledgementPage, Menu, PolicyAcknowledgmentRequest, PolicyApproval, PolicyRecord } from "@/components";
 import '../styles/globals.css'
 import { UserProvider } from "@/context";
 
@@ -15,7 +14,8 @@ export default function Home() {
       case HomePageTabs.POLICY_CREATION: return <PolicyTemplate />;
       case HomePageTabs.POLICY_RECORD: return <PolicyRecord />;
       case HomePageTabs.POLICY_APPROVAL: return <PolicyApproval />;
-      case HomePageTabs.POLICY_ACKNOWLEDGEMENT: return <PolicyAcknowledgement />;
+      case HomePageTabs.POLICY_ACKNOWLEDGEMENT: return <EmployeeAcknowledgementPage />;
+      case HomePageTabs.POLICY_ACKNOWLEDGEMENT_REQUEST: return <PolicyAcknowledgmentRequest />;
     }
   }, [homePageTab])
 

@@ -1,22 +1,29 @@
 "use client"
+import { useUser } from "@/context";
 import PolicyService from "@/service/policyService";
 import { Policy } from "@prisma/client";
 import { useState, useEffect } from "react";
 
 export const PolicyRecord = () => {
+    const { user } = useUser();
     const [policies, setPolicies] = useState<Policy[]>([]);
     const [selectedPolicy, setSelectedPolicy] = useState<Policy | null>(null);
     const [editContent, setEditContent] = useState("");
+    const [editName, setEditName] = useState("");
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        fetchPolicies();
-    }, []);
+        if (user) {
+            fetchPolicies();
+        }
+    }, [user]);
 
     const fetchPolicies = async () => {
         try {
-            const data = await PolicyService.getPolicies();
-            setPolicies(data);
+            if (user) {
+                const data = await PolicyService.getPolicies(user?.companyId);
+                setPolicies(data);
+            }
         } catch (error) {
             console.error("Error fetching policies:", error);
         }
@@ -24,6 +31,7 @@ export const PolicyRecord = () => {
 
     const handleEdit = (policy: Policy) => {
         setSelectedPolicy(policy);
+        setEditName(policy.name);
         setEditContent(policy.content);
     };
 
@@ -37,13 +45,10 @@ export const PolicyRecord = () => {
 
         setLoading(true);
         try {
-            //   await PolicyService.updatePolicy(selectedPolicy.id, {
-            //     content: editContent,
-            //   });
-
+            await PolicyService.updatePolicy(editName, editContent, selectedPolicy.id, selectedPolicy.companyId, selectedPolicy.policyType);
             alert("Policy updated successfully!");
-            fetchPolicies(); // Refresh list
-            setSelectedPolicy(null); // Close modal
+            fetchPolicies();
+            setSelectedPolicy(null);
         } catch (error) {
             console.error("Error updating policy:", error);
             alert("Error updating policy");
@@ -67,6 +72,7 @@ export const PolicyRecord = () => {
                                 <th>Type</th>
                                 <th>Version</th>
                                 <th>Status</th>
+                                <th>PolicyCycle</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -77,6 +83,7 @@ export const PolicyRecord = () => {
                                     <td>{policy.type}</td>
                                     <td>{policy.version}</td>
                                     <td>{policy.status}</td>
+                                    <td>{policy.policyType}</td>
                                     <td>
                                         <button className="edit-btn" onClick={() => handleEdit(policy)}>Edit</button>
                                         <button className="delete-btn" onClick={() => handleDelete(policy.id)}>Delete</button>
@@ -87,11 +94,15 @@ export const PolicyRecord = () => {
                     </table>
                 )}
 
-                {/* Edit Modal */}
                 {selectedPolicy && (
                     <div className="modal">
                         <div className="modal-content">
                             <h3>Edit Policy</h3>
+                            <input
+                                className="policy-name-editor"
+                                value={editName}
+                                onChange={(e) => setEditName(e.target.value)}
+                            />
                             <textarea
                                 className="policy-editor"
                                 value={editContent}

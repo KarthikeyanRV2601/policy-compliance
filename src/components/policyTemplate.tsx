@@ -62,7 +62,7 @@ const PolicyTemplate = () => {
                                     <div className="policy-card" key={index}>
                                         <h3>{template.name}</h3>
                                         <p>{template.content}</p>
-                                        <button onClick={() => handleTemplateEdit(template)}>Create Policy</button>
+                                        <button className="create-button"  onClick={() => handleTemplateEdit(template)}>Create Policy</button>
                                         {
                                             template.type === 'custom' && <button onClick={() => handlePolicyTemplateDelete(template.id)}>Delete template</button>
                                         }
@@ -71,7 +71,7 @@ const PolicyTemplate = () => {
                             }
                             <div className="policy-card">
                                 <h3>Custom template</h3>
-                                <button onClick={() => handleTemplateEdit(customTemplate)}>Create Policy</button>
+                                <button className="create-button" onClick={() => handleTemplateEdit(customTemplate)}>Create Policy</button>
                             </div>
                         </div>
                     </> :

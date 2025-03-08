@@ -15,33 +15,40 @@ model Company {
 }
 
 model Employee {
-  id               String            @id @default(uuid())
-  companyId        String
-  name             String
-  email            String            @unique
-  role             String
-  joinedAt         DateTime
-  acknowledgements Acknowledgement[]
-  company          Company           @relation(fields: [companyId], references: [id])
+  id                     String                   @id @default(uuid())
+  companyId              String
+  name                   String
+  email                  String                   @unique
+  role                   String
+  joinedAt               DateTime
+  acknowledgementRecord  String[]
+  acknowledgements       Acknowledgement[]
+  company                Company                  @relation(fields: [companyId], references: [id])
+  newJoinee              Boolean
+  AcknowledgementRequest AcknowledgementRequest[]
 }
 
 model Policy {
-  id               String            @id @default(uuid())
-  companyId        String
-  name             String
-  type             String
-  version          Int               @default(1)
-  content          String
-  status           String
-  approvedBy       String?
-  createdAt        DateTime          @default(now())
-  updatedAt        DateTime          @updatedAt
-  acknowledgements Acknowledgement[]
-  company          Company           @relation(fields: [companyId], references: [id])
+  id                    String            @id @default(uuid())
+  companyId             String
+  name                  String
+  type                  String
+  version               Int               @default(1)
+  content               String
+  status                String
+  approvedBy            String?
+  createdAt             DateTime          @default(now())
+  updatedAt             DateTime          @updatedAt
+  policyType            String? 
+  acknowledgementRecord String[]
+  acknowledgements      Acknowledgement[]
+  company               Company           @relation(fields: [companyId], references: [id])
+
+  AcknowledgementRequest AcknowledgementRequest[]
 }
 
 model PolicyTemplate {
-  id        String   @id @default(uuid())
+  id        String  @id @default(uuid())
   name      String
   content   String
   type      String
@@ -49,11 +56,26 @@ model PolicyTemplate {
 }
 
 model Acknowledgement {
+  id                  String   @id @default(uuid())
+  policyId            String
+  employeeId          String
+  acknowledgedAt      DateTime @default(now())
+  acknowledgementType String
+  policyVersion       Int
+
+  policy   Policy   @relation(fields: [policyId], references: [id])
+  employee Employee @relation(fields: [employeeId], references: [id])
+}
+
+model AcknowledgementRequest {
   id             String   @id @default(uuid())
-  employeeId     String
   policyId       String
-  acknowledgedAt DateTime @default(now())
-  ackType        String
-  employee       Employee @relation(fields: [employeeId], references: [id])
-  policy         Policy   @relation(fields: [policyId], references: [id])
+  employeeId     String
+  requestedAt    DateTime @default(now())
+  dueDate        DateTime
+  status         String
+  escalationSent Boolean  @default(false)
+
+  policy   Policy   @relation(fields: [policyId], references: [id])
+  employee Employee @relation(fields: [employeeId], references: [id])
 }

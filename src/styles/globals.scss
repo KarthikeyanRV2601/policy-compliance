@@ -1,14 +1,16 @@
-$primary-color: #007bff;
-$secondary-color: #6c757d;
-$background-light: #f8f9fa;
-$font-color: #333;
+// New Color Scheme
+$primary-color: #006d77;
+$secondary-color: #ff6b35;
+$background-light: #edf6f9;
+$font-color: #222;
+$border-radius: 6px;
 
 body {
-  font-family: 'Arial', sans-serif;
+  font-family: 'Poppins', sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f8f9fa;
-  color: #333;
+  background: linear-gradient(to right, #edf6f9, #d1e8e2);
+  color: $font-color;
   width: 100vw;
   height: 100vh;
 }
@@ -19,85 +21,151 @@ body {
   padding: 20px;
 }
 
+// Buttons
 button {
-  background-color: $primary-color;
+  background: $primary-color;
   color: white;
-  padding: 10px 20px;
+  padding: 12px 24px;
   border: none;
+  border-radius: $border-radius;
   cursor: pointer;
-  transition: background 0.3s;
+  font-size: 14px;
+  transition: all 0.3s ease-in-out;
 
   &:hover {
-    background-color: darken($primary-color, 10%);
+    background: darken($primary-color, 10%);
+    transform: scale(1.05);
   }
 }
 
+select {
+  appearance: none;
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 16px;
+  border: 2px solid #006d77;
+  border-radius: 6px;
+  background-color: white;
+  color: #222;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  
+  &:hover {
+    border-color: #ff6b35;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: #ff6b35;
+    box-shadow: 0 0 5px rgba(255, 107, 53, 0.5);
+  }
+}
+
+
+// Home Page
 .home-page {
-  width: 100vw;
-  height: 100vh;
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 
   .menu {
-    width: fit-content;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    align-self: flex-end;
+    gap: 10px;
 
     &-item {
-      width: fit-content;
       list-style: none;
+      font-weight: 500;
       cursor: pointer;
-      transition: 0.2s ease-in;
+      padding: 10px;
+      border-radius: $border-radius;
+      transition: 0.3s ease;
 
       &:hover {
-        text-decoration: underline;
-        opacity: 0.8;
+        background: $secondary-color;
+        color: white;
       }
     }
   }
 
   .rendering-component {
-    width: 60%;
-    height: 100%;
+    width: 65%;
+    background: white;
+    padding: 20px;
+    border-radius: $border-radius;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   }
-
 }
 
-
+// Policy Template
 .policy-template {
   &-container {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    text-align: center;
+    // align-items: center;
     text-align: left;
     width: 100%;
-    height: 100%;
+    padding: 20px;
+    .create-button {
+      width: 200px;
+    }
   }
 
   &-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 20px;
   }
 
   &-card {
     background: white;
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    text-align: center;
-  }
+    border-radius: $border-radius;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: 0.3s ease;
 
+    &:hover {
+      transform: translateY(-5px);
+    }
+  }
 }
 
+// Policy Approval
 .policy-approval {
   &-container {
     text-align: center;
+    padding: 20px;
+    background: white;
+    border-radius: $border-radius;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    
+  .status-tabs {
+    display: flex;
+    gap: 10px;
+  }
+
+  .tab-button {
+    background: none;
+    color: #222;
+    border: 1px solid black;
+  }
+  .active {
+    background: $secondary-color;
+    color: white;
+    border: 1px solid white;
+  }
+
+  .reject-btn {
+    background: #dc3545;
+  }
+  .approve-btn {
+    background: green;
+  }
+  .policy-approval-actions{
+    display: flex;
+    gap: 10px;
+  }
   }
 
   &-list {
@@ -107,61 +175,38 @@ button {
   }
 
   &-item {
-    background: white;
+    background: $background-light;
     padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: $border-radius;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   }
 }
 
-.policy-acknowledgement {
-  &-container {
-    text-align: center;
-  }
-
-  &-item {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-  }
-}
-
-.user-roles {
-  &-container {
-    text-align: center;
-  }
-
-  &-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  &-item {
-    background: white;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-}
-
+// Policy Form
 .policy-form-container {
-  background: #fff;
-  padding: 20px;
-  border-radius: 8px;
+  background: white;
+  padding: 25px;
+  border-radius: $border-radius;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 500px;
+  max-width: 800px;
+  .policy-template-edit-button{
+    width: 200px;
+  }
+  .save {
+    background: green;
+  }
+
+  
+  .cancel {
+    background: gray;
+  }
 
   h2 {
     margin-bottom: 20px;
+    color: $primary-color;
   }
 
   .form-group {
@@ -169,21 +214,26 @@ button {
 
     label {
       display: block;
-      font-weight: bold;
+      font-weight: 600;
       margin-bottom: 5px;
     }
 
     input,
     textarea {
       width: 100%;
-      padding: 8px;
+      padding: 10px;
       border: 1px solid #ccc;
-      border-radius: 4px;
-      max-width: 100%;
+      border-radius: $border-radius;
+      transition: 0.2s;
+
+      &:focus {
+        border-color: $primary-color;
+        outline: none;
+      }
     }
 
     textarea {
-      height: 100px;
+      height: 120px;
     }
   }
 
@@ -192,24 +242,12 @@ button {
     justify-content: space-between;
 
     .cancel-btn {
-      background: #ccc;
-    }
-  }
-
-  button {
-    padding: 10px 15px;
-    border: none;
-    background: #007bff;
-    color: #fff;
-    cursor: pointer;
-    border-radius: 4px;
-
-    &:hover {
-      background: #0056b3;
+      background: #bbb;
     }
   }
 }
 
+// Policy Record Table
 .policy-record {
   .policy-container {
     padding: 20px;
@@ -218,166 +256,243 @@ button {
   .policy-table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 10px;
+    margin-top: 15px;
+    border-radius: $border-radius;
 
     th,
     td {
-      padding: 10px;
+      padding: 12px;
       border: 1px solid #ddd;
+      text-align: left;
     }
 
     th {
-      background: #f4f4f4;
+      background: $secondary-color;
+      color: white;
     }
   }
 
   .edit-btn,
   .delete-btn {
-    background: #007bff;
-    color: white;
-    padding: 5px 10px;
+    padding: 8px 12px;
     border: none;
+    border-radius: $border-radius;
     cursor: pointer;
-    margin-left: 10px;
-  }
+    transition: 0.3s;
 
-  .delete-btn {
-    background: gray;
-    color: white;
-  }
+    &.edit-btn {
+      background: $primary-color;
+      color: white;
+    }
 
-  .modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    &.delete-btn {
+      background: #dc3545;
+      color: white;
+    }
 
-    .modal-content {
-      background: white;
-      padding: 20px;
-      width: 400px;
-      border-radius: 5px;
-
-      h3 {
-        margin-bottom: 10px;
-      }
-
-      .policy-editor {
-        width: 90%;
-        max-width: 90%;
-        height: 150px;
-        border: 1px solid #ddd;
-        padding: 10px;
-      }
-
-      .modal-actions {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 10px;
-
-        button {
-          padding: 8px 12px;
-          border: none;
-          cursor: pointer;
-        }
-
-        button:first-child {
-          background: #ccc;
-        }
-
-        button:last-child {
-          background: #28a745;
-          color: white;
-        }
-      }
+    &:hover {
+      opacity: 0.85;
     }
   }
-
 }
 
-.policy-approval-container {
-  max-width: 800px;
-  // margin: auto;
-  padding: 20px;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+// Modal Styling
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  h2 {
-    text-align: center;
-    margin-bottom: 20px;
+  .modal-content {
+    background: white;
+    padding: 20px;
+    width: 400px;
+    border-radius: $border-radius;
+
+    h3 {
+      margin-bottom: 10px;
+    }
+
+    .policy-editor {
+      width: 100%;
+      height: 150px;
+      border: 1px solid #ddd;
+      padding: 10px;
+      border-radius: $border-radius;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 15px;
+    }
+  }
+}
+
+// Employee Policy Acknowledgment
+.policy-employee-acknowledgement {
+  .acknowledgement-list {
+    max-width: 600px;
+    padding: 20px;
+    background: white;
+    border-radius: $border-radius;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   }
 
-  .status-tabs {
-    display: flex;
-    justify-content: center;
+  .policy-item {
+    background: $background-light;
+    padding: 14px;
+    border-radius: $border-radius;
+    cursor: pointer;
+    transition: 0.2s;
+    list-style: none;
+
+    &:hover {
+      background: darken($background-light, 10%);
+    }
+  }
+
+  .policy-view {
+    max-width: 800px;
+    padding: 25px;
+    border-radius: $border-radius;
+    background: white;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  }
+}
+
+// Buttons inside acknowledgment
+button {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  background: $primary-color;
+  border-radius: $border-radius;
+  transition: 0.2s;
+
+  &:hover {
+    background: darken($primary-color, 10%);
+  }
+
+  &:disabled {
+    background: gray;
+    cursor: not-allowed;
+  }
+}
+
+
+.employee-policy-container {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  
+
+  .search-section input {
+    width: 100%;
+    height: 50px;
+  }
+
+  h2, h3 {
+    color: #222;
     margin-bottom: 15px;
+  }
 
-    .tab-button {
-      padding: 8px 15px;
-      margin: 0 5px;
-      border: none;
-      background: #eee;
+  .employee-list {
+    background: white;
+    padding: 15px;
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: left;
+
+    .employee-item {
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      margin-bottom: 8px;
       cursor: pointer;
-      transition: 0.3s ease;
-
-      &.active {
-        background: #007bff;
-        color: white;
-      }
+      transition: background 0.3s ease-in-out;
 
       &:hover {
-        background: #ddd;
+        background: #e3f2fd;
+      }
+
+      &.selected {
+        background: #007bff;
+        color: white;
+        font-weight: bold;
       }
     }
   }
 
-  .policy-approval-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
+  .policy-list {
+    margin-top: 20px;
+    background: white;
+    padding: 15px;
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 
-  .policy-approval-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-  }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
 
-  button {
-    padding: 5px 10px;
-    background: #007bff;
-    color: white;
-    border: none;
-    cursor: pointer;
+    .policy-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      margin-bottom: 5px;
+      transition: background 0.2s ease-in-out;
 
-    &:disabled {
-      background: #aaa;
-      cursor: not-allowed;
+      &:hover {
+        background: #f1f1f1;
+      }
+
+      input[type="checkbox"] {
+        transform: scale(1.2);
+        cursor: pointer;
+      }
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      color: white;
+      background: #007bff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s ease-in-out;
+
+      &:hover {
+        background: #0056b3;
+      }
+
+      &:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+      }
     }
   }
 
-  .no-access {
+  .error {
     color: red;
     font-weight: bold;
-  }
-
-  .reject-btn {
-    background: #dc3545;
-  }
-
-  .status-badge {
-    font-size: 14px;
-    padding: 3px 8px;
-    border-radius: 5px;
-    background: #ddd;
+    margin-top: 10px;
   }
 }

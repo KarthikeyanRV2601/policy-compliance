@@ -22,6 +22,7 @@ A **Next.js** application that helps companies manage their **policy compliance 
 ---
 
 📌 Features
+
 ✅ Employee Management – Add employees and track policy acknowledgments
 
 ✅ Policy Approval – Policies require approval before acknowledgment

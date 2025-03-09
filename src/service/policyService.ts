@@ -36,15 +36,15 @@ class PolicyService {
     }
 
     static async requestAcknowledgment(employeeId: string, policies: string[]) {
-        return requestApi('/policies/acknowledgement/request', 'POST', { employeeId, policies });
+        return requestApi('/acknowledgement/request', 'POST', { employeeId, policies });
     }
     
     static async acknowledgePolicy(policyId: string, employeeId: string) {
-        return requestApi('/policies/acknowledgement/acknowledge', 'POST', { policyId, employeeId });
+        return requestApi('/acknowledgement/acknowledge', 'POST', { policyId, employeeId });
     }
 
     static async getPendingAcknowledgements(userId: string) {
-        return requestApi(`/policies/acknowledgement/acknowledge?userId=${userId}`, 'GET');
+        return requestApi(`/acknowledgement/acknowledge?userId=${userId}`, 'GET');
     }
 }
 

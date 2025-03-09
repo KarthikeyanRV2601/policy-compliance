@@ -36,5 +36,4 @@ A **Next.js** application that helps companies manage their **policy compliance 
 ✅ Role-Based Acknowledgment – Different policies for different roles
 
 
-**Documentation link**
-[url](https://docs.google.com/document/d/1UgFN7qpVdGrDzPuNyUg97LLtxXgkvLk8vITuKfN3IxM/edit?usp=sharing)
+[Documentation link](https://docs.google.com/document/d/1UgFN7qpVdGrDzPuNyUg97LLtxXgkvLk8vITuKfN3IxM/edit?usp=sharing)

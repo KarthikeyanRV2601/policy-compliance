@@ -3,6 +3,7 @@ export const requestApi = async (endpoint: string, method: string = 'GET', body?
         method,
         headers: {
             'Content-Type': 'application/json',
+            'Cache-Control': 'no-store, no-cache, must-revalidate'
         },
         body: body ? JSON.stringify(body) : undefined,
     });

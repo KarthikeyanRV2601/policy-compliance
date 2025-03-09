@@ -1,8 +1,8 @@
-import HomePage from "@/components/HomePage";
+import App from "./_app";
 
 export default function Index() {
 
   return (
-    <HomePage />
+    <App />
   );
 }

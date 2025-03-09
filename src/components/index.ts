@@ -5,4 +5,3 @@ export * from './policyTemplateForm';
 export * from './policyRecord';
 export * from './employeeAcknowledgementPage'
 export * from './menu';
-export * from './HomePage';

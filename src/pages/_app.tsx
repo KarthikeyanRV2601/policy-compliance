@@ -6,7 +6,7 @@ import '../styles/styles.css'
 import { UserProvider } from "@/context";
 
 
-export default function HomePage() {
+export default function App() {
   const [homePageTab, setHomePageTab] = useState<HomePageTabs>(HomePageTabs.POLICY_CREATION)
 
   const renderComponent = useCallback(() => {

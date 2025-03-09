@@ -4,7 +4,6 @@ const prisma = new PrismaClient();
 
 async function checkAcknowledgmentStatus(employeeId: string, lastAcknowledgedAt: Date) {
     
-    console.log({employeeId, lastAcknowledgedAt});
     const employee = await prisma.employee.findUnique({
         where: { id: employeeId },
         include: { acknowledgements: true }

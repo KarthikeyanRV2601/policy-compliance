@@ -15,48 +15,48 @@ class PolicyService {
     }
 
     static async getPolicy(policyId: string) {
-        return this.request(`/.netlify/functions/api/policies?policyId=${policyId}`, 'GET');
+        return this.request(`/.netlify/functions/policies?policyId=${policyId}`, 'GET');
     }
 
     static async getPolicies(companyId: string) {
-        return this.request(`/.netlify/functions/api/policies?companyId=${companyId}`, 'GET');
+        return this.request(`/.netlify/functions/policies?companyId=${companyId}`, 'GET');
     }
 
     static async createPolicy(name: string, content: string, type: string, companyId: string, policyType: string) {
-        return this.request('/.netlify/functions/api/policies', 'POST', { name, content, companyId, type, policyType });
+        return this.request('/.netlify/functions/policies', 'POST', { name, content, companyId, type, policyType });
     }
 
     static async deletePolicy(id: string) {
-        return this.request('/.netlify/functions/api/policies', 'DELETE', { id });
+        return this.request('/.netlify/functions/policies', 'DELETE', { id });
     }
 
 
     static async updatePolicy(name: string, content: string, policyId: string, companyId: string, policyType: string | null) {
-        return this.request('/.netlify/functions/api/policies', 'POST', { name, content, policyId, companyId, updating: true, policyType });
+        return this.request('/.netlify/functions/policies', 'POST', { name, content, policyId, companyId, updating: true, policyType });
     }
 
     static async approvePolicy(policyId: string, approverId: string, approverRole: string, policyType: string) {
-        return this.request("/.netlify/functions/api/approve", 'POST', { policyId, approverId, approverRole, policyType });
+        return this.request("/.netlify/functions/approve", 'POST', { policyId, approverId, approverRole, policyType });
     }
 
     static async rejectPolicy(policyId: string, approverId: string, approverRole: string, policyType: string) {
-        return this.request('/.netlify/functions/api/reject', 'POST', { policyId, approverId, approverRole, policyType });
+        return this.request('/.netlify/functions/reject', 'POST', { policyId, approverId, approverRole, policyType });
     }
 
     static async undoPolicyApproveRejectAction(policyId: string, approverId: string, approverRole: string, policyType: string) {
-        return this.request('/.netlify/functions/api/undo', 'POST', { policyId, approverId, approverRole, policyType });
+        return this.request('/.netlify/functions/undo', 'POST', { policyId, approverId, approverRole, policyType });
     }
 
     static async requestAcknowledgment(employeeId: string, policies: string[]) {
-        return this.request('/.netlify/functions/api/request', 'POST', { employeeId, policies });
+        return this.request('/.netlify/functions/request', 'POST', { employeeId, policies });
     }
     
     static async acknowledgePolicy(policyId: string, employeeId: string) {
-        return this.request('/.netlify/functions/api/acknowledge', 'POST', { policyId, employeeId });
+        return this.request('/.netlify/functions/acknowledge', 'POST', { policyId, employeeId });
     }
 
     static async getPendingAcknowledgements(userId: string) {
-        return this.request(`/.netlify/functions/api/acknowledge?userId=${userId}`, 'GET');
+        return this.request(`/.netlify/functions/acknowledge?userId=${userId}`, 'GET');
     }
 }
 

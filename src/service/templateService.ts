@@ -1,6 +1,6 @@
 class TemplateService {
     private static async request(endpoint: string, method: string = 'GET', body?: any) {
-        const response = await fetch(endpoint, {
+        const response = await fetch(`.netlify/functions/${endpoint}`, {
             method,
             headers: {
                 'Content-Type': 'application/json',

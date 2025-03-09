@@ -1,9 +1,9 @@
 "use client"
-import PolicyService from "@/service/policyService";
 import type { PolicyTemplate } from "@prisma/client";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { PolicyTemplateForm } from "./policyTemplateForm";
 import { useUser } from "@/context";
+import TemplateService from "@/service/templateService";
 
 const PolicyTemplate = () => {
     const [policyTemplates, setPolicyTemplates] = useState<PolicyTemplate[]>([]);
@@ -24,7 +24,7 @@ const PolicyTemplate = () => {
 
 
     const fetchPolicyTemplates = useCallback(async () => {
-        const policyTemplatesResponse = await PolicyService.getPolicyTemplates();
+        const policyTemplatesResponse = await TemplateService.getPolicyTemplates();
         setPolicyTemplates(policyTemplatesResponse);
     }, [])
 
@@ -44,7 +44,7 @@ const PolicyTemplate = () => {
 
 
     const handlePolicyTemplateDelete = useCallback(async (id: string) => {
-        await PolicyService.deletePolicyTemplates(id);
+        await TemplateService.deletePolicyTemplates(id);
         setPolicyTemplates((prev) => prev.filter((template) => template.id !== id))
     }, [customTemplate]);
 
@@ -62,10 +62,12 @@ const PolicyTemplate = () => {
                                     <div className="policy-card" key={index}>
                                         <h3>{template.name}</h3>
                                         <p>{template.content}</p>
-                                        <button className="create-button"  onClick={() => handleTemplateEdit(template)}>Create Policy</button>
-                                        {
-                                            template.type === 'custom' && <button onClick={() => handlePolicyTemplateDelete(template.id)}>Delete template</button>
-                                        }
+                                        <div className="action-buttons">
+                                            <button className="create-button" onClick={() => handleTemplateEdit(template)}>Create Policy</button>
+                                            {
+                                                template.type === 'custom' && <button className="delete-button" onClick={() => handlePolicyTemplateDelete(template.id)}>Delete template</button>
+                                            }
+                                        </div>
                                     </div>
                                 ))
                             }

@@ -75,6 +75,10 @@ select:focus {
   background: #ff6b35;
   color: white;
 }
+.home-page .menu .active {
+  background: #ff6b35;
+  color: white;
+}
 .home-page .rendering-component {
   width: 65%;
   background: white;
@@ -90,7 +94,12 @@ select:focus {
   width: 100%;
   padding: 20px;
 }
-.policy-template-container .create-button {
+.policy-template-container .action-buttons {
+  display: flex;
+  gap: 10px;
+}
+.policy-template-container .create-button,
+.policy-template-container .delete-button {
   width: 200px;
 }
 .policy-template-grid {
@@ -135,6 +144,10 @@ select:focus {
 }
 .policy-approval-container .approve-btn {
   background: green;
+}
+.policy-approval-container .undo-btn {
+  width: 150px;
+  background: gray;
 }
 .policy-approval-container .policy-approval-actions {
   display: flex;
@@ -280,6 +293,32 @@ select:focus {
   display: flex;
   justify-content: space-between;
   margin-top: 15px;
+  gap: 10px;
+  width: 90%;
+}
+.modal .modal-content .modal-actions .cancel-btn {
+  background: gray;
+}
+.modal .modal-content label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+.modal .modal-content input,
+.modal .modal-content textarea {
+  width: 90%;
+  max-width: 90%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+.modal .modal-content input:focus,
+.modal .modal-content textarea:focus {
+  border-color: #006d77;
+  outline: none;
+}
+.modal .modal-content textarea {
+  height: 120px;
 }
 
 .policy-employee-acknowledgement .acknowledgement-list {
@@ -306,6 +345,9 @@ select:focus {
   border-radius: 6px;
   background: white;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+.policy-employee-acknowledgement .policy-view .acknowledgement-section {
+  margin-top: 10px;
 }
 
 button {
@@ -339,7 +381,8 @@ button:disabled {
   width: 100%;
   height: 50px;
 }
-.employee-policy-container h2, .employee-policy-container h3 {
+.employee-policy-container h2,
+.employee-policy-container h3 {
   color: #222;
   margin-bottom: 15px;
 }

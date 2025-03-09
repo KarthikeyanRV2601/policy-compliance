@@ -14,18 +14,6 @@ class PolicyService {
         return response.json();
     }
 
-    static async getPolicyTemplates() {
-        return this.request('/api/policies/templates', 'GET');
-    }
-
-    static async createPolicyTemplates(name: string, content: string, type: string) {
-        return this.request('/api/policies/templates', 'POST', { name, content, type });
-    }
-
-    static async deletePolicyTemplates(id: string) {
-        return this.request('/api/policies/templates', 'DELETE', { id });
-    }
-
     static async getPolicy(policyId: string) {
         return this.request(`/api/policies/policies?policyId=${policyId}`, 'GET');
     }

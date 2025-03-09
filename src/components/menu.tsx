@@ -3,12 +3,12 @@ import { HomePageTabs, MenuProps } from "@/types"
 
 
 export const Menu = (props: MenuProps) => {
-    const { setHomePageTab } = props;
+    const { setHomePageTab, currentTab } = props;
     return (
         <div className="menu">
             <ul>
                 {
-                    (Object.keys(HomePageTabs) as Array<keyof typeof HomePageTabs>).map((key, index) => <li className="menu-item" key={index} onClick={() => setHomePageTab(HomePageTabs[key])}>{HomePageTabs[key]}</li>)
+                    (Object.keys(HomePageTabs) as Array<keyof typeof HomePageTabs>).map((key, index) => <li className={`menu-item ${currentTab === HomePageTabs[key] as any ? 'active' : ''}`}key={index} onClick={() => setHomePageTab(HomePageTabs[key])}>{HomePageTabs[key]}</li>)
                 }
             </ul>
         </div>

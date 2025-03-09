@@ -22,7 +22,7 @@ export default function Home() {
   return (
     <UserProvider>
       <div className="home-page">
-        <Menu setHomePageTab={setHomePageTab} />
+        <Menu setHomePageTab={setHomePageTab} currentTab={homePageTab}/>
         <div className="rendering-component">
           {renderComponent()}
         </div>

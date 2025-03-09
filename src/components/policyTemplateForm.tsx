@@ -1,5 +1,6 @@
 import { useUser } from "@/context";
 import PolicyService from "@/service/policyService";
+import TemplateService from "@/service/templateService";
 import { PolicyTemplate } from "@prisma/client";
 import { useCallback, useState } from "react";
 
@@ -26,7 +27,7 @@ export const PolicyTemplateForm: React.FC<PolicyFormProps> = ({ template, onClos
 
   const createPolicyTemplate = async () => {
     try {
-      const templateResponse = await PolicyService.createPolicyTemplates(
+      const templateResponse = await TemplateService.createPolicyTemplates(
         policyData.name,
         policyData.content,
         policyData.type

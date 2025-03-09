@@ -18,7 +18,7 @@ class EmployeeService {
         return this.request(`/api/employee/employee?companyId=${companyId}`, 'GET');
     }
     static async getEmployee(employeeId: string) {
-        return this.request(`/api/employee/employee?companyId=${employeeId}`, 'GET');
+        return this.request(`/api/employee/employee?employeeId=${employeeId}`, 'GET');
     }
     
     static async searchEmployee(searchQuery: string, companyId: string) {

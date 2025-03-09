@@ -49,7 +49,7 @@ select {
   color: #222;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
-  
+
   &:hover {
     border-color: #ff6b35;
   }
@@ -87,6 +87,11 @@ select {
         color: white;
       }
     }
+
+    .active {
+      background: $secondary-color;
+      color: white;
+    }
   }
 
   .rendering-component {
@@ -107,9 +112,17 @@ select {
     text-align: left;
     width: 100%;
     padding: 20px;
-    .create-button {
+
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .create-button,
+    .delete-button {
       width: 200px;
     }
+
   }
 
   &-grid {
@@ -129,6 +142,7 @@ select {
       transform: translateY(-5px);
     }
   }
+
 }
 
 // Policy Approval
@@ -139,33 +153,40 @@ select {
     background: white;
     border-radius: $border-radius;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    
-  .status-tabs {
-    display: flex;
-    gap: 10px;
-  }
 
-  .tab-button {
-    background: none;
-    color: #222;
-    border: 1px solid black;
-  }
-  .active {
-    background: $secondary-color;
-    color: white;
-    border: 1px solid white;
-  }
+    .status-tabs {
+      display: flex;
+      gap: 10px;
+    }
 
-  .reject-btn {
-    background: #dc3545;
-  }
-  .approve-btn {
-    background: green;
-  }
-  .policy-approval-actions{
-    display: flex;
-    gap: 10px;
-  }
+    .tab-button {
+      background: none;
+      color: #222;
+      border: 1px solid black;
+    }
+
+    .active {
+      background: $secondary-color;
+      color: white;
+      border: 1px solid white;
+    }
+
+    .reject-btn {
+      background: #dc3545;
+    }
+
+    .approve-btn {
+      background: green;
+    }
+
+    .undo-btn {
+      width: 150px;
+      background: gray;
+    }
+    .policy-approval-actions {
+      display: flex;
+      gap: 10px;
+    }
   }
 
   &-list {
@@ -192,14 +213,16 @@ select {
   border-radius: $border-radius;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   max-width: 800px;
-  .policy-template-edit-button{
+
+  .policy-template-edit-button {
     width: 200px;
   }
+
   .save {
     background: green;
   }
 
-  
+
   .cancel {
     background: gray;
   }
@@ -330,6 +353,36 @@ select {
       display: flex;
       justify-content: space-between;
       margin-top: 15px;
+      gap: 10px;
+      width: 90%;
+
+      .cancel-btn{
+        background: gray;
+      }
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    input,
+    textarea {
+      width: 90%;
+      max-width: 90%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: $border-radius;
+
+      &:focus {
+        border-color: $primary-color;
+        outline: none;
+      }
+    }
+
+    textarea {
+      height: 120px;
     }
   }
 }
@@ -363,6 +416,9 @@ select {
     border-radius: $border-radius;
     background: white;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    .acknowledgement-section{
+      margin-top: 10px;
+    }
   }
 }
 
@@ -396,14 +452,15 @@ button {
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
-  
+
 
   .search-section input {
     width: 100%;
     height: 50px;
   }
 
-  h2, h3 {
+  h2,
+  h3 {
     color: #222;
     margin-bottom: 15px;
   }

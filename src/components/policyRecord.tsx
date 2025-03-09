@@ -109,8 +109,8 @@ export const PolicyRecord = () => {
                                 onChange={(e) => setEditContent(e.target.value)}
                             />
                             <div className="modal-actions">
-                                <button onClick={() => setSelectedPolicy(null)}>Cancel</button>
-                                <button onClick={handleSave} disabled={loading}>
+                                <button className="cancel-btn" onClick={() => setSelectedPolicy(null)}>Cancel</button>
+                                <button className="save-btn" onClick={handleSave} disabled={loading}>
                                     {loading ? "Saving..." : "Save"}
                                 </button>
                             </div>

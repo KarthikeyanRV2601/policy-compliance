@@ -8,8 +8,11 @@ A **Next.js** application that helps companies manage their **policy compliance 
 ### **Frontend**
 - **Next.js** (React framework)  
 - **TypeScript** (Strict type safety)  
-- **CSS Modules** (Scoped styling)  
-
+- **SCSS Modules** (Scoped styling)  
+- **PostgreSQL** (Database)  
+- **Supabase** (DB hosting)  
+- **Netlify** (Application deployment)
+    
 ### **Backend & APIs**
 - **Next.js API Routes** (Serverless API functions)  
 - **Prisma** (ORM for PostgreSQL)  

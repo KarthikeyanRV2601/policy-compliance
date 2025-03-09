@@ -1,5 +1,3 @@
-import { Employee } from "@prisma/client";
-
 export enum HomePageTabs {
     POLICY_CREATION = 'POLICY CREATION',
     POLICY_RECORD = 'POLICY RECORD',

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import PolicyService from "@/service/policyService";
 import { useUser } from "@/context";
-import { AcknowledgementRequest, Policy } from "@prisma/client";
+import { Policy } from "@prisma/client";
 
 export const EmployeePolicyView = ({ policyId, onAcknowledged }: { policyId: string; onAcknowledged: () => void }) => {
     const { user } = useUser();
@@ -19,7 +19,7 @@ export const EmployeePolicyView = ({ policyId, onAcknowledged }: { policyId: str
         if (policyId) {
             getPolicy();
         }
-    }, [getPolicy])
+    }, [getPolicy, policyId])
 
     const acknowledgePolicy = async () => {
         if (policyId && user) {
@@ -30,7 +30,7 @@ export const EmployeePolicyView = ({ policyId, onAcknowledged }: { policyId: str
                 await PolicyService.acknowledgePolicy(policyId, user.id);
                 alert("Policy acknowledged successfully!");
                 onAcknowledged();
-            } catch (err) {
+            } catch {
                 setError("Error acknowledging policy.");
             } finally {
                 setLoading(false);

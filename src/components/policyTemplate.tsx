@@ -30,7 +30,7 @@ const PolicyTemplate = () => {
 
     useEffect(() => {
         fetchPolicyTemplates();
-    }, [])
+    }, [fetchPolicyTemplates])
 
     const handleTemplateEdit = useCallback((template: PolicyTemplate) => {
         setTemplateToEdit(template);
@@ -46,7 +46,7 @@ const PolicyTemplate = () => {
     const handlePolicyTemplateDelete = useCallback(async (id: string) => {
         await TemplateService.deletePolicyTemplates(id);
         setPolicyTemplates((prev) => prev.filter((template) => template.id !== id))
-    }, [customTemplate]);
+    }, []);
 
 
 

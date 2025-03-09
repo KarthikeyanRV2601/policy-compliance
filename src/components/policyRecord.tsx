@@ -2,7 +2,7 @@
 import { useUser } from "@/context";
 import PolicyService from "@/service/policyService";
 import { Policy } from "@prisma/client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 export const PolicyRecord = () => {
     const { user } = useUser();
@@ -12,13 +12,8 @@ export const PolicyRecord = () => {
     const [editName, setEditName] = useState("");
     const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
-        if (user) {
-            fetchPolicies();
-        }
-    }, [user]);
 
-    const fetchPolicies = async () => {
+    const fetchPolicies = useCallback(async () => {
         try {
             if (user) {
                 const data = await PolicyService.getPolicies(user?.companyId);
@@ -27,7 +22,13 @@ export const PolicyRecord = () => {
         } catch (error) {
             console.error("Error fetching policies:", error);
         }
-    };
+    }, [user]);
+
+    useEffect(() => {
+        if (user) {
+            fetchPolicies();
+        }
+    }, [user, fetchPolicies]);
 
     const handleEdit = (policy: Policy) => {
         setSelectedPolicy(policy);

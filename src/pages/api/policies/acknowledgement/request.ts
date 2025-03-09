@@ -1,4 +1,4 @@
-import { AcknowledgementRequestType, AcknowledgementStatus } from "@/types";
+import { AcknowledgementStatus } from "@/types";
 import { PrismaClient } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 const prisma = new PrismaClient();
@@ -12,7 +12,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
 
         try {
-            
+
             const employee = await prisma.employee.findUnique({
                 where: { id: employeeId },
             });

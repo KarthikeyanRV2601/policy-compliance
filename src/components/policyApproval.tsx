@@ -17,14 +17,8 @@ export const PolicyApproval = () => {
     const [loading, setLoading] = useState<{ [key: string]: boolean }>({});
     const [selectedStatus, setSelectedStatus] = useState<PolicyStatus>(PolicyStatus.PENDING);
 
-    useEffect(() => {
-        if(user) {
-            fetchPolicies();
-        }
-    }, [user, selectedStatus]);
-
-    const fetchPolicies = async () => {
-        if(user) {
+    const fetchPolicies = useCallback(async () => {
+        if (user) {
             try {
                 const data = await PolicyService.getPolicies(user.companyId);
                 if (selectedStatus === PolicyStatus.ALL) {
@@ -37,7 +31,14 @@ export const PolicyApproval = () => {
             }
 
         }
-    };
+    }, [user, selectedStatus]);
+
+    useEffect(() => {
+        if (user) {
+            fetchPolicies();
+        }
+    }, [user, fetchPolicies]);
+
 
     const approvePolicy = useCallback(async (policyId: string, policyType: string) => {
         if (user) {
@@ -45,21 +46,21 @@ export const PolicyApproval = () => {
             alert("Policy Approved!");
         }
 
-    }, [])
+    }, [user])
 
     const rejectPolicy = useCallback(async (policyId: string, policyType: string) => {
         if (user) {
             await PolicyService.rejectPolicy(policyId, user.id, user.role, policyType);
             alert("Policy Rejected!");
         }
-    }, [])
+    }, [user])
 
     const undoPolicy = useCallback(async (policyId: string, policyType: string) => {
         if (user) {
             await PolicyService.undoPolicyApproveRejectAction(policyId, user.id, user.role, policyType);
             alert("Policy Undone!");
         }
-    }, [])
+    }, [user])
 
 
     const handleAction = async (policyId: string, policyType: string, action: "approve" | "reject" | "undo") => {

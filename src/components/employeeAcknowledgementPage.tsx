@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { AcknowledgementRequest } from "@/types";
 import { EmployeeAcknowledgementList } from "./employeeAcknowledgementList";
 import { EmployeePolicyView } from "./employeePolicyView";
 

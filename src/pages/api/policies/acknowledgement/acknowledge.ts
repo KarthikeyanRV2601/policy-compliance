@@ -103,7 +103,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             });
 
             if (policy) {
-                const response = await prisma.acknowledgement.create({
+                await prisma.acknowledgement.create({
                     data: {
                         employeeId,
                         policyId,
@@ -114,12 +114,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 });
             }
 
-            const response = await prisma.acknowledgementRequest.updateMany({
+            await prisma.acknowledgementRequest.updateMany({
                 where: { employeeId, policyId, status: "pending" },
                 data: { status: "acknowledged" },
             });
             if (employee) {
-                const updateResponse = await prisma.employee.update({
+                await prisma.employee.update({
                     where: { id: employeeId },
                     data: {
                         acknowledgementRecord: [...employee.acknowledgementRecord, policyId]
@@ -128,7 +128,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             }
 
             if (policy) {
-                const updateResponse = await prisma.policy.update({
+                await prisma.policy.update({
                     where: { id: policyId },
                     data: {
                         acknowledgementRecord: [...policy?.acknowledgementRecord, employeeId]

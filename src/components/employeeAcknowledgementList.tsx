@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import PolicyService from "@/service/policyService";
 import { useUser } from "@/context";
 import { AcknowledgementRequest } from "@prisma/client";
@@ -8,22 +8,23 @@ export const EmployeeAcknowledgementList = ({ onSelectPolicy }: { onSelectPolicy
     const [ackRequests, setAckRequests] = useState<AcknowledgementRequest[]>([]);
     const [error, setError] = useState<string | null>(null);
 
-    useEffect(() => {
-        if (user) {
-            fetchAcknowledgements();
-        }
-    }, [user]);
-
-    const fetchAcknowledgements = async () => {
+    const fetchAcknowledgements = useCallback(async () => {
         try {
             if (user) {
                 const data = await PolicyService.getPendingAcknowledgements(user.id);
                 setAckRequests(data);
             }
-        } catch (err) {
+        } catch {
             setError("Error fetching acknowledgement requests.");
         }
-    };
+    }, [user]);
+
+    useEffect(() => {
+        if (user) {
+            fetchAcknowledgements();
+        }
+    }, [user, fetchAcknowledgements]);
+
 
     return (
         <div className="acknowledgement-list">

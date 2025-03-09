@@ -1,5 +1,7 @@
 export const requestApi = async (endpoint: string, method: string = 'GET', body?: any) => {
-    const response = await fetch(`/api${endpoint}`, {
+    const url = new URL(`/api${endpoint}`, window.location.origin);
+    url.searchParams.append("nocache", Date.now().toString());
+    const response = await fetch(url, {
         method,
         headers: {
             'Content-Type': 'application/json',

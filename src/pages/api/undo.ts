@@ -6,7 +6,8 @@ const prisma = new PrismaClient();
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method !== "POST") {
-        return res.status(405).json({ error: "Method Not Allowed" });
+        res.status(405).json({ error: "Method Not Allowed" });
+        return;
     }
 
 
@@ -18,17 +19,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             (!ROLE_PERMISSIONS[approverRole].includes("ALL") &&
                 !ROLE_PERMISSIONS[approverRole].includes(policyType))
         ) {
-            return res.status(403).json({ error: "You are not authorized to approve this policy." });
+            res.status(403).json({ error: "You are not authorized to approve this policy." });
+            return;
         }
 
         if (!policyId) {
-            return res.status(400).json({ error: "Missing policy ID" });
+            res.status(400).json({ error: "Missing policy ID" });
+            return;
         }
 
         const policy = await prisma.policy.findUnique({ where: { id: policyId } });
 
         if (!policy) {
-            return res.status(404).json({ error: "Policy not found" });
+            res.status(404).json({ error: "Policy not found" });
+            return;
         }
 
         const previousStatus =
@@ -44,8 +48,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         });
 
         res.status(200).json(updatedPolicy);
+        return;
     } catch (error: any) {
         console.log("Undo policy action error:", error.message);
         res.status(500).json({ error: "Internal Server Error" });
+        return;
     }
 }

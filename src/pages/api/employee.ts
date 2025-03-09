@@ -9,21 +9,25 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         if (req.method === "GET") {
             const { companyId, employeeId, searchQuery } = req.query;
 
-            if(searchQuery) {
+            if (searchQuery) {
                 const employee = await prisma.employee.findMany({
-                    where: {  OR: [
-                        { name: { startsWith: searchQuery as string, mode: "insensitive" } },
-                        { email: { startsWith: searchQuery as string, mode: "insensitive" } }
-                    ] },
+                    where: {
+                        OR: [
+                            { name: { startsWith: searchQuery as string, mode: "insensitive" } },
+                            { email: { startsWith: searchQuery as string, mode: "insensitive" } }
+                        ]
+                    },
                 });
-                return res.status(200).json(employee);
+                res.status(200).json(employee);
+                return;
             }
 
             if (employeeId) {
                 const employeeExists = await prisma.employee.findUnique({
                     where: { id: employeeId as string },
                 });
-                return res.status(200).json(employeeExists);
+                res.status(200).json(employeeExists);
+                return;
             }
 
             if (companyId) {
@@ -39,18 +43,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 const companyEmployee = await prisma.employee.findMany({
                     where: { companyId: companyId as string },
                 });
-                return res.status(200).json(companyEmployee);
+                res.status(200).json(companyEmployee);
+                return;
             }
         }
 
         if (req.method === "POST") {
-            return res.status(200).json({});
+            res.status(200).json({});
+            return;
         }
 
         if (req.method === "DELETE") {
         }
 
         res.status(405).json({ message: "Method Not Allowed" });
+        return;
     }
     catch (error) {
         console.log("employee Error:", error);

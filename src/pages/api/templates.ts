@@ -6,7 +6,8 @@ const prisma = new PrismaClient();
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "GET") {
     const policyTemplates = await prisma.policyTemplate.findMany();
-    return res.status(200).json(policyTemplates);
+    res.status(200).json(policyTemplates);
+    return;
   }
 
   if (req.method === "POST") {
@@ -19,7 +20,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         createdBy
       }
     });
-    return res.status(200).json(policyTemplatesCreate);
+    res.status(200).json(policyTemplatesCreate);
+    return;
   }
 
   if (req.method === "DELETE") {
@@ -27,8 +29,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const policyTemplatesDelete = await prisma.policyTemplate.delete({
       where: { id }
     });
-    return res.status(200).json(policyTemplatesDelete);
+    res.status(200).json(policyTemplatesDelete);
+    return;
   }
 
   res.status(405).json({ message: "Method Not Allowed" });
+  return;
 }

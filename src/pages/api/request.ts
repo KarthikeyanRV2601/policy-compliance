@@ -8,7 +8,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const { employeeId, policies } = req.body;
 
         if (!employeeId || !policies) {
-            return res.status(400).json({ error: "Missing required fields: employeeId, policies" });
+            res.status(400).json({ error: "Missing required fields: employeeId, policies" });
+            return;
         }
 
         try {
@@ -18,7 +19,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             });
 
             if (!employee) {
-                return res.status(404).json({ error: "Employee not found" });
+                res.status(404).json({ error: "Employee not found" });
+                return;
             }
 
             const dueDate =
@@ -36,10 +38,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 })),
             });
 
-            return res.status(200).json({ message: "Acknowledgement requests created successfully" });
+            res.status(200).json({ message: "Acknowledgement requests created successfully" });
+            return;
         } catch (error) {
             console.error("Error requesting acknowledgement:", error);
-            return res.status(500).json({ error: "Internal Server Error" });
+            res.status(500).json({ error: "Internal Server Error" });
+            return;
         }
     }
 

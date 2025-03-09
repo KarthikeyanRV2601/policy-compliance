@@ -25,14 +25,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           where: { companyId: companyId as string }
         });
 
-        return res.status(200).json(policies);
+        res.status(200).json(policies);
+        return;
 
       } else if (policyId) {
         const policy = await prisma.policy.findUnique({
           where: { id: policyId as string }
         });
 
-        return res.status(200).json(policy);
+        res.status(200).json(policy);
+        return;
       }
     }
 
@@ -63,7 +65,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         });
       }
 
-      return res.status(200).json({});
+      res.status(200).json({});
+      return;
     }
 
     if (req.method === "DELETE") {
@@ -71,10 +74,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const policyDeleteResponse = await prisma.policy.delete({
         where: { id }
       });
-      return res.status(200).json(policyDeleteResponse);
+      res.status(200).json(policyDeleteResponse);
+      return;
     }
 
     res.status(405).json({ message: "Method Not Allowed" });
+    return;
   }
   catch (error) {
     console.log("createPolicy Error:", error);

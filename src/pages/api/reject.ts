@@ -5,7 +5,10 @@ import { NextApiRequest, NextApiResponse } from "next";
 const prisma = new PrismaClient();
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method !== "POST") return res.status(405).json({ error: "Method Not Allowed" });
+  if (req.method !== "POST"){
+    res.status(405).json({ error: "Method Not Allowed" })
+    return;
+  };
 
   try {
     const { policyId, approverId, approverRole, policyType } = req.body;
@@ -15,7 +18,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       (!ROLE_PERMISSIONS[approverRole].includes("ALL") &&
         !ROLE_PERMISSIONS[approverRole].includes(policyType))
     ) {
-      return res.status(403).json({ error: "You are not authorized to reject this policy." });
+      res.status(403).json({ error: "You are not authorized to reject this policy." });
+      return;
     }
 
     const policy = await prisma.policy.update({
@@ -27,9 +31,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       },
     });
 
-    return res.status(200).json({ message: "Policy rejected successfully", policy });
+    res.status(200).json({ message: "Policy rejected successfully", policy });
+    return;
   } catch (error) {
     console.error("Rejection error:", error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: "Internal Server Error" });
+    return;
   }
 }

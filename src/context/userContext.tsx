@@ -1,3 +1,4 @@
+import UserService from "@/service/userService";
 import { Employee } from "@prisma/client";
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 
@@ -22,8 +23,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const response = await fetch("/user");
-                const userData = await response.json();
+                const userData = await UserService.getUser();
                 setUser(userData);
             } catch (error) {
                 console.error("Failed to fetch user:", error);

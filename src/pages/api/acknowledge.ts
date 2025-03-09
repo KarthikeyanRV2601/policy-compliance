@@ -77,6 +77,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         });
 
         res.status(200).json(pendingAcksAfterProcessing);
+        return;
     }
 
     if (req.method === "POST") {
@@ -92,7 +93,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     where: { employeeId, policyId, policyVersion: policy.version },
                 });
                 if (existing) {
-                    return res.status(400).json({ error: "Policy already acknowledged" });
+                    res.status(400).json({ error: "Policy already acknowledged" });
+                    return;
                 }
             }
 
@@ -137,9 +139,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
 
             res.status(200).json({ message: "Policy acknowledged successfully" });
+            return;
         } catch (error) {
             console.error("Acknowledgement error:", error);
             res.status(500).json({ error: "Internal Server Error" });
+            return;
         }
     }
 }

@@ -1,6 +1,6 @@
 class TemplateService {
     private static async request(endpoint: string, method: string = 'GET', body?: any) {
-        const response = await fetch(endpoint, {
+        const response = await fetch(`/.netlify/functions${endpoint}`, {
             method,
             headers: {
                 'Content-Type': 'application/json',
@@ -15,15 +15,15 @@ class TemplateService {
     }
 
     static async getPolicyTemplates() {
-        return this.request('/.netlify/functions/templates', 'GET');
+        return this.request('/templates', 'GET');
     }
 
     static async createPolicyTemplates(name: string, content: string, type: string) {
-        return this.request('/.netlify/functions/templates', 'POST', { name, content, type });
+        return this.request('/templates', 'POST', { name, content, type });
     }
 
     static async deletePolicyTemplates(id: string) {
-        return this.request('/.netlify/functions/templates', 'DELETE', { id });
+        return this.request('/templates', 'DELETE', { id });
     }
 }
 

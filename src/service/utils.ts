@@ -1,5 +1,5 @@
 export const requestApi = async (endpoint: string, method: string = 'GET', body?: any) => {
-    const response = await fetch(`/.netlify/functions${endpoint}`, {
+    const response = await fetch(`/api${endpoint}`, {
         method,
         headers: {
             'Content-Type': 'application/json',

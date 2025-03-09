@@ -2,7 +2,7 @@ import { requestApi } from "./utils";
 
 class UserService {
     static async getUser() {
-        return await requestApi("/user");
+        return await requestApi("/user/user");
     }
 }
 

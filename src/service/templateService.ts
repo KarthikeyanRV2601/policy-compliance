@@ -3,15 +3,15 @@ import { requestApi } from "./utils";
 class TemplateService {
 
     static async getPolicyTemplates() {
-        return requestApi('/templates', 'GET');
+        return requestApi('/templates/templates', 'GET');
     }
 
     static async createPolicyTemplates(name: string, content: string, type: string) {
-        return requestApi('/templates', 'POST', { name, content, type });
+        return requestApi('/templates/templates', 'POST', { name, content, type });
     }
 
     static async deletePolicyTemplates(id: string) {
-        return requestApi('/templates', 'DELETE', { id });
+        return requestApi('/templates/templates', 'DELETE', { id });
     }
 }
 

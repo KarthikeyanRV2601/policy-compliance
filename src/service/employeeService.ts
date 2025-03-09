@@ -15,14 +15,14 @@ class EmployeeService {
     }
 
     static async getCompanyEmployee(companyId: string) {
-        return this.request(`/api/employee/employee?companyId=${companyId}`, 'GET');
+        return this.request(`/.netlify/functions/api/employee/employee?companyId=${companyId}`, 'GET');
     }
     static async getEmployee(employeeId: string) {
-        return this.request(`/api/employee/employee?employeeId=${employeeId}`, 'GET');
+        return this.request(`/.netlify/functions/api/employee/employee?employeeId=${employeeId}`, 'GET');
     }
     
     static async searchEmployee(searchQuery: string, companyId: string) {
-        return this.request(`/api/employee/employee?searchQuery=${searchQuery}&companyId=${companyId}`, 'GET');
+        return this.request(`/.netlify/functions/api/employee/employee?searchQuery=${searchQuery}&companyId=${companyId}`, 'GET');
     }
 
 }

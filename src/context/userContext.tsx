@@ -22,7 +22,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const response = await fetch("/api/auth/user");
+                const response = await fetch("/.netlify/functions/api/auth/user");
                 const userData = await response.json();
                 setUser(userData);
             } catch (error) {

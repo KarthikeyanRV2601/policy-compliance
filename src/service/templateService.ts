@@ -15,15 +15,15 @@ class TemplateService {
     }
 
     static async getPolicyTemplates() {
-        return this.request('/api/templates/templates', 'GET');
+        return this.request('/.netlify/functions/api/templates/templates', 'GET');
     }
 
     static async createPolicyTemplates(name: string, content: string, type: string) {
-        return this.request('/api/templates/templates', 'POST', { name, content, type });
+        return this.request('/.netlify/functions/api/templates/templates', 'POST', { name, content, type });
     }
 
     static async deletePolicyTemplates(id: string) {
-        return this.request('/api/templates/templates', 'DELETE', { id });
+        return this.request('/.netlify/functions/api/templates/templates', 'DELETE', { id });
     }
 }
 

@@ -34,3 +34,7 @@ A **Next.js** application that helps companies manage their **policy compliance 
 ✅ Versioning Support – Employees acknowledge only the active policy version
 
 ✅ Role-Based Acknowledgment – Different policies for different roles
+
+
+**Documentation link**
+[https://docs.google.com/document/d/1UgFN7qpVdGrDzPuNyUg97LLtxXgkvLk8vITuKfN3IxM/edit?usp=sharing](url)
